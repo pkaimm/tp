@@ -22,7 +22,7 @@
     </div>
 </div>
 
-<script src="{{asset('admin//public/js/jquery-3.1.1.min.js')}}"></script>
+<script src="{{asset('/admin/public/js/jquery-3.1.1.min.js')}}"></script>
 <script src="{{asset('/admin/bootstrap/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('/admin/public/js/delaunay.js')}}"></script>
 <script src="{{asset('/admin/public/js/TweenMax.js')}}"></script>
