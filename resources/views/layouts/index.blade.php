@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="{{asset('/admin/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <script src="/static/layui/layui.js"></script>
+     <link href="{{asset('/admin/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- <link rel="stylesheet" type="text/css" href="../public/css/base.css"> -->
     <link rel="stylesheet" type="text/css" href="{{asset('/admin/css/index.css')}}">
     <title>后台管理系统</title>

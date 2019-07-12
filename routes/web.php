@@ -63,5 +63,9 @@ Route::get('/admin/login', 'Admin\LoginController@login');
 Route::post('/admin/dologin', 'Admin\LoginController@dologin');
 //后台首页的路由
 Route::get('/admin/index', 'Admin\IndexController@index');
-//后台商品的路由
+//后台商品视图的路由
 Route::get('/admin/shangpin', 'Admin\ShangpinController@shangpin');
+//后台商品处理的路由
+Route::post('/admin/doshangpin', 'Admin\ShangpinController@doshangpin');
+//后台商品列表的路由
+Route::get('/admin/spindex', 'Admin\ShangpinController@spindex');
