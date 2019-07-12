@@ -2,7 +2,7 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="52f660f6-12e0-433c-9c95-a2f63cfbaa47" name="shop" url="http://139.196.161.179">
+      <webServer id="3617a2c5-6fcd-4f05-b9e1-ec04fadf696c" name="shop" url="http://139.196.161.179">
         <fileTransfer host="139.196.161.179" port="22" rootFolder="/data/wwwroot/www/shop" accessType="SFTP">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />

@@ -52,3 +52,12 @@ Route::group(['middleware' => ['dologin']], function () {
 Route::get('admin/file','Admin\FileController@file');
 //文件上传处理的视图
 Route::post('admin/dofile','Admin\FileController@dofile');
+
+//后台注册的路由
+Route::get('/admin/register','Admin\LoginController@register');
+//后台处理注册的路由
+Route::post('/admin/doregister', 'Admin\LoginController@doregister');
+//后台登录的视图
+Route::get('/admin/login', 'Admin\LoginController@login');
+//后台登录处理的路由
+Route::post('/admin/dologin', 'Admin\LoginController@dologin');
