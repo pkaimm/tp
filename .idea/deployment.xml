@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="shop" showDialogOnRemoteDnD="false">
+  <component name="PublishConfigData" serverName="pk" showDialogOnRemoteDnD="false">
     <serverData>
-      <paths name="shop">
+      <paths name="pk">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />

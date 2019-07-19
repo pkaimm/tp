@@ -20,6 +20,7 @@ class LoginController extends Controller
        //dd($data);
         unset($data['_token']);
         unset($data['button']);
+        unset($data['s']);
         $ser=DB::connection('mysql_shop2')->table('register')->insert($data);
         if($ser){
             return redirect('/admin/login');

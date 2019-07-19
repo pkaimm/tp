@@ -45,7 +45,12 @@
             <dt>商品管理</dt>
             <dd>
                 <ul class="clearfix">
-                    <li><a href="{{url('admin/shangpin')}}">商品管理</a></li>
+                    <li><a href="{{url('admin/shangpin')}}">商品添加</a></li>
+                </ul>
+            </dd>
+            <dd>
+                <ul class="clearfix">
+                    <li><a href="{{url('admin/spindex')}}">商品列表</a></li>
                 </ul>
             </dd>
         </dl>

@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Index;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use DB;
 
 class StudentController extends Controller
@@ -10,10 +11,10 @@ class StudentController extends Controller
     public  function  index(Request $request)
     {
             //开启sql
-            DB::connection('mysql_shop')->enableQuerylog();
-            $data=DB::connection('mysql_shop')->table('shop_car')->where('goods_name','like','%22%')->get()->toArray();
-            //获取以执行的查询数组
-            $sql=DB::connection('mysql_shop')->getQuerylog();
+//            DB::connection('mysql_shop')->enableQuerylog();
+//            $data=DB::connection('mysql_shop')->table('shop_car')->where('goods_name','like','%22%')->get()->toArray();
+//            //获取以执行的查询数组
+//            $sql=DB::connection('mysql_shop')->getQuerylog();
             //var_dump($sql);
             //dd($data);
             $redis=new \Redis();
@@ -24,21 +25,22 @@ class StudentController extends Controller
             echo "访问次数:".$data;
 
             $ser=$request->all();
+            //dd($ser);
             $ss="";
             if(!empty($ser['ss'])){
                 $ss=$ser['ss'];
-                $info=DB::table('Student')->where('name','like',"%".$ser['ss']."%")->paginate(2);
+                $info=DB::table('student')->where('name','like',"%".$ser['ss']."%")->paginate(2);
             }else{
-                $info=DB::table('Student')->paginate(2);
+                $info=DB::table('student')->paginate(2);
             }
-            return view('Student',['info'=>$info,'ss'=>$ss]);
+            return view('student',['info'=>$info,'ss'=>$ss]);
     }
 
     //登录的视图
     public function login(Request $request)
     {
         //$request->session()->put('name','123');
-        return view('login');
+        return view('/index/login');
     }
 
     //处理登录的方法
@@ -49,10 +51,10 @@ class StudentController extends Controller
         $ser=DB::table('register')->where(['name'=>$data['name'],'pwd'=>$data['pwd']])->first();
         //dd($ser);
         if(empty($ser)){
-            echo "<script>alert('账号密码错误'),location.href='/student/login'</script>>";
+            echo "<script>alert('账号密码错误'),location.href='/index/login'</script>>";
         }else{
             $request->session()->put('ser',$ser);
-            return redirect('/student/index');
+            return redirect('/index/index');
         }
 
     }
@@ -60,7 +62,7 @@ class StudentController extends Controller
     //注册的视图
     public function register()
     {
-        return view('register');
+        return view('/index/register');
     }
 
     //注册的处理页面
@@ -75,16 +77,18 @@ class StudentController extends Controller
         $data=$request->all();
         //dd($data);
         unset($data['_token']);
-        $ser=DB::connection('mysql_shop2')->table('Register')->insert($data);
+        unset($data['s']);
+        //unset($data['email']);
+        $ser=DB::table('register')->insert($data);
         //dd($ser);
         if($ser){
-            return redirect('student/login');
+            return redirect('index/login');
         }
     }
 
     public function create()
     {
-        return view('create');
+        return view('/index/create');
     }
 
     public function save(Request $request)
@@ -99,7 +103,8 @@ class StudentController extends Controller
         //dd($data);
         //删除令牌
         unset($data['_token']);
-        $ser=DB::table('Student')->insert($data);
+        unset($data['s']);
+        $ser=DB::table('student')->insert($data);
         //dd($ser);die;
         if($ser){
             echo json_encode(['font'=>'添加成功','code'=>1]);
@@ -114,7 +119,7 @@ class StudentController extends Controller
     {
         $id=$request->all();
         //dd($id);
-        $ser=DB::table('Student')->delete($id);
+        $ser=DB::table('student')->delete($id);
         //dd($ser);
         if($ser){
             return redirect('/student/index');
@@ -125,9 +130,9 @@ class StudentController extends Controller
     public function eirt(Request $request)
     {
         $ser=$request->all();
-        $data=DB::table('Student')->where(['id'=>$ser['id']])->first();
+        $data=DB::table('student')->where(['id'=>$ser['id']])->first();
         //dd($data);
-        return view('eirt',['data'=>$data]);
+        return view('/index/eirt',['data'=>$data]);
     }
 
     //处理修改
@@ -136,7 +141,7 @@ class StudentController extends Controller
         $ser=$request->all();
         unset($ser['_token']);
         //dd($ser);
-        $data=DB::table('Student')->where(['id'=>$ser['id']])->update($ser);
+        $data=DB::table('student')->where(['id'=>$ser['id']])->update($ser);
         //dd($data);
         if($data){
             echo json_encode(['font'=>'修改成功','code'=>1]);
