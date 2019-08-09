@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
+use App\Http\Controllers\Jieko\JiekoController;
+
 
 class LoginController extends Controller
 {
     //后台注册的视图
     public function register()
     {
+
         return view('/admin/register');
     }
     //后台处理注册的方法
@@ -30,6 +34,7 @@ class LoginController extends Controller
     //后台登录的视图
     public function login()
     {
+        JiekoController::login();
         return view('/admin/login');
     }
     //后台登录的处理

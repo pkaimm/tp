@@ -51,7 +51,7 @@ class StudentController extends Controller
         $ser=DB::table('register')->where(['name'=>$data['name'],'pwd'=>$data['pwd']])->first();
         //dd($ser);
         if(empty($ser)){
-            echo "<script>alert('账号密码错误'),location.href='/index/login'</script>>";
+            echo "<script>alert('账号密码错误'),location.href='/index/login'</script>";
         }else{
             $request->session()->put('ser',$ser);
             return redirect('/index/index');
