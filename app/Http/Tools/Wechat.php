@@ -1,20 +1,25 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Administrator
+ * Date: 2019/8/6
+ * Time: 9:18
+ */
 
-
-namespace  App\Http\Tools;
+namespace App\Http\Tools;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 
-class Wechat{
-    public $request;
-    public $wechat;
-    public function __construct(Request $request,Wechat $wechat)
+class Wechat
+{
+    public  $request;
+    public  $client;
+    public function __construct(Request $request,Client $client)
     {
         $this->request = $request;
-        $this->wechat = $wechat;
+        $this->client = $client;
     }
-
     //获取用户全部信息
     public function wechat_user_info($openid)
     {
@@ -46,13 +51,8 @@ class Wechat{
         return $access_token;
     }
 
-    /**
-     * post请求
-     * @param $url
-     * @param $data
-     * @return bool|string
-     */
-    public function post($url, $data = []){
+    //post请求
+    public function post($url, $data=[]){
         //初使化init方法
         $ch = curl_init();
         //指定URL
@@ -83,13 +83,12 @@ class Wechat{
      * @param $openid
      * @return bool|string
      */
-    public function push_template($openid,$id)
+    public function push_template($openid,$template_id)
     {
-        //$openid = 'otAUQ1XOd-dph7qQ_fDyDJqkUj90';
         $url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token='.$this->get_access_token();
         $data = [
             'touser'=>$openid,
-            'template_id'=>$id,
+            'template_id'=>$template_id,
             'url'=>'http://www.baidu.com',
             'data' => [
                 'first' => [
@@ -114,9 +113,7 @@ class Wechat{
         return $re;
     }
 
-    /**
-     * 上传微信素材资源
-     */
+//上传微信素材
     public function upload_source($up_type,$type,$title='',$desc='')
     {
         $file = $this->request->file($type);
@@ -140,8 +137,8 @@ class Wechat{
         ];
         if ($type == 'video' && $up_type ==2){
             $multipart[] = [
-                'name' => 'description',
-                'contents' => json_decode(['title'=>$title,'introduction'=>$desc])
+              'name' => 'description',
+              'contents' => json_encode(['title'=>$title,'introduction'=>$desc])
             ];
         }
         $response = $this->client->request('POST',$url,[
@@ -167,4 +164,66 @@ class Wechat{
         }
     }
 
+    //获取标签列表
+    public function tag_list()
+    {
+        $url = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='.$this->get_access_token();
+        $res = file_get_contents($url);
+        $tag_info = json_decode($res,1);
+        return $tag_info;
+    }
+    //根据id获取标签粉丝列表
+    public function tag_fans($tag_id,$next_openid='')
+    {
+        $url = 'https://api.weixin.qq.com/cgi-bin/user/tag/get?access_token='.$this->get_access_token();
+        $data = [
+            'tagid' =>$tag_id,
+            'next_openid' =>$next_openid
+        ];
+       $res = $this->post($url, json_encode($data));
+        return json_decode($res, 1);
+
+    }
+    //获取用户下的标签
+    public function get_user_tag($openid)
+    {
+        $url = 'https://api.weixin.qq.com/cgi-bin/tags/getidlist?access_token='.$this->get_access_token();
+        $data = [
+            'openid' => $openid
+        ];
+        $res = $this->post($url, json_encode($data));
+        return json_decode($res, 1);
+    }
+    //执行标签群发消息
+    public function do_push_tag_message($push_type,$tag_id,$message,$media_id)
+    {
+        $url = 'https://api.weixin.qq.com/cgi-bin/message/mass/sendall?access_token='.$this->get_access_token();
+        if ($push_type == 1) {
+//            文本消息
+            $data = [
+                'filter' =>  [
+                    'is_to_all'=>false,
+                    'tag_id' =>$tag_id
+                ],
+                'text'=>[
+                    'content'=> $message
+                ],
+                'msgtype'    => 'text'
+            ];
+        }else{
+            //图片  素材消息
+            $data = [
+                'filter' =>  [
+                    'is_to_all'=>false,
+                    'tag_id' =>$tag_id
+                ],
+                'mpnews'  =>[
+                    'media_id'=>$media_id
+                ],
+                'msgtype' =>'image'
+            ];
+        }
+        $res = $this->post($url,json_encode($data,JSON_UNESCAPED_UNICODE));
+        return json_decode($res, true);
+    }
 }

@@ -206,35 +206,40 @@ Route::get('/ks/ksindex','Ks\KsController@ksindex');
 //考试新闻列表删除
 Route::get('/ks/delete','Ks\KsController@delete');
 
-//微信接口
-Route::get('jieko/get_user_info','Jieko\JiekoController@get_user_info');
-Route::get('jieko/get_user_list','Jieko\JiekoController@get_user_list');
-
-//用户同意授权 调用code
-Route::get('/jieko/code' , 'Jieko\JiekoController@code');
-Route::get('/jieko/login' , 'Jieko\JiekoController@login');
-
-//获取模板列表
-Route::get('/jieko/index' , 'Jieko\JiekoController@index');
-//模板列表视图
-Route::get('/jieko/doindex' , 'Jieko\JiekoController@doindex');
-//删除模板列表
-Route::get('/jieko/delete' , 'Jieko\JiekoController@delete');
-//推送模板信息
-Route::get('/jieko/pushtemplate' , 'Jieko\JiekoController@pushtemplate');
-//微信素材视图
-Route::get('/jieko/upload' , 'Jieko\JiekoController@upload');
+//微信
+Route::get('wechat/get_user_list', 'wechat\WechatController@get_user_list');
+Route::get('wechat/get_user_info', 'wechat\WechatController@get_user_info');
+Route::get('wechat/user_list', 'wechat\WechatController@user_list');
+Route::get('wechat/user_details', 'wechat\WechatController@user_details');
+Route::get('wechat/login', 'wechat\WechatController@login');
+Route::get('wechat/code', 'wechat\WechatController@code');
+Route::get('wechat/template_list', 'wechat\WechatController@template_list');
+//删除模板
+Route::get('wechat/del_template', 'wechat\WechatController@del_template');
+Route::get('wechat/send_template', 'wechat\WechatController@send_template');
 //上传素材
-Route::post('/jieko/do_upload' , 'Jieko\JiekoController@do_upload');
-
-Route::get('jieko/get_source', 'Jieko\JiekoController@get_source');
-Route::get('jieko/get_video_source', 'Jieko\JiekoController@get_video_source');
-Route::get('jieko/get_voice_source', 'Jieko\JiekoController@get_voice_source');
+Route::get('wechat/upload', 'wechat\WechatController@upload');
+Route::post('wechat/do_upload', 'wechat\WechatController@do_upload');
+Route::get('wechat/get_source', 'wechat\WechatController@get_source');
+Route::get('wechat/get_video_source', 'wechat\WechatController@get_video_source');
+Route::get('wechat/get_voice_source', 'wechat\WechatController@get_voice_source');
 //素材列表
-Route::get('jieko/source_list', 'Jieko\JiekoController@source_list');
+Route::get('wechat/source_list', 'wechat\WechatController@source_list');
 //获取永久素材列表
-Route::get('jieko/upload_source', 'Jieko\JiekoController@upload_source');
-
-Route::any('/wechat/event','WechatController@event'); //接收公众号事件
-//用户标签相关
-Route::get('/jieko/tag','Jieko\JiekoController@tag'); //添加标签
+Route::get('wechat/upload_source', 'wechat\WechatController@upload_source');
+//创建标签
+Route::get('wechat/create_tag', 'wechat\WechatController@create_tag');
+Route::post('wechat/save_tag', 'wechat\WechatController@save_tag');
+Route::get('wechat/tag_list', 'wechat\WechatController@tag_list');
+Route::get('wechat/del_tag', 'wechat\WechatController@del_tag');
+Route::get('wechat/add_user_tag', 'wechat\WechatController@add_user_tag');
+//标签下粉丝
+Route::get('wechat/tag_fans', 'wechat\WechatController@tag_fans');
+//粉丝下的标签
+Route::get('wechat/get_user_tag', 'wechat\WechatController@get_user_tag');
+Route::get('wechat/del_user_tag', 'wechat\WechatController@del_user_tag');
+//修改标签
+Route::get('wechat/edit_tag', 'wechat\WechatController@edit_tag');
+Route::post('wechat/update_tag', 'wechat\WechatController@update_tag');
+Route::get('wechat/push_tag_message', 'wechat\WechatController@push_tag_message');
+Route::post('wechat/do_push_tag_message', 'wechat\WechatController@do_push_tag_message');
